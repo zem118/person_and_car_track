@@ -1,0 +1,5 @@
+python ./train.py --data ./data/coco_people.yaml --cfg ./models/yolov5s.yaml --weights ./weights/yolov5s.pt --batch-size 30 --epochs 120 --workers 8 --name base_n --project yolo_test
+
+python val.py --data ./data/coco_people.yaml  --weights yolo_test/base_n3/weights/best.pt --batch-size 12
+
+python detect.py --source ./83.jpg --weights yolo_test/base_n3/weights/best.pt --conf-thres 0.3
