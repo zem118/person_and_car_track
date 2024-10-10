@@ -6,13 +6,14 @@
 
 
 ## yoloV8+byteTrack行人与车辆目标检测与追踪
+####  （本系统最开始使用yolov5网络实现，后在本地改成yolov8训练，已经将训练好的两个版本权重模型放在weights文件夹中）
 - 支持的模型对于YOLOv8，模型通常根据它们的准确性和速度权衡进行分类。
 - 通常支持以下模型：
 - YOLOv8n（Nano）：提供高速度和较低的准确性。非常适合处理速度的实时应用
 - YOLOv8s（Small）：平衡速度和准确性。适用于许多实际应用。
 - YOLOv8m（Medium）：在速度和准确性之间提供良好的权衡。适用于更苛刻的应用
 - YOLOv8l（Large）：高准确性，速度较低。最适合准确性为优先考虑的场景。
-- （本系统最开始使用yolov5网络实现，后在本地改成yolov8训练，已经将训练好的两个版本权重模型放在weights文件夹中）
+
 ## ![image](https://github.com/user-attachments/assets/8f26599f-23e5-40b4-858e-1bdbf0e9e0a4)
 
 ## 先决条件
@@ -61,7 +62,7 @@ python val.py --data ./data/coco_people.yaml  --weights yolo_test/base_n3/weight
 python detect.py --source ./83.jpg --weights yolo_test/base_n3/weights/best.pt --conf-thres 0.3
 ```
 ## byteTrack算法
-- 各种MOT追踪的API大致类似，先准备目标检测框
+各种MOT追踪的API大致类似，先准备目标检测框
 ```
 box_list = yolo_pd.to_numpy()
 detections = []
@@ -73,7 +74,7 @@ for box in box_list:
 
     detections.append([l, t, r, b, conf])
 ```
-- 这里将识别出的行人检测框，转为numpy结构
+这里将识别出的行人检测框，转为numpy结构
 ```
 sys.path.append('../../github/ByteTrack/')
 from yolox.tracker.byte_tracker import BYTETracker, STrack
@@ -95,4 +96,5 @@ tracks = byte_tracker.update(
         img_size=frame.shape
     )
 ```
-- 调用ByteTrack的update函数进行匹配，匹配后会给每一个检测框一个唯一的ID。主要思路和核心代码就是这些，基于此在做一些工程编码就可以实现检测和跟踪的效果。
+调用ByteTrack的update函数进行匹配，匹配后会给每一个检测框一个唯一的ID。主要思路和核心代码就是这些，基于此在做一些工程编码就可以实现检测和跟踪的效果。
+#### 遵循 GNU General Public License v3.0 协议，标明目标检测部分来源：https://github.com/ultralytics/yolov5/
